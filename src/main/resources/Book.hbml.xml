@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.mongo.Book" table="test_table">
+        <id column="id" type="String">
+            <generator class="native" />
+        </id>
+        <property name="book" type="string">
+            <column name="book"></column>
+        </property>
+        <property name="author" type="string">
+            <column name="author"></column>
+        </property>
+    </class>
+</hibernate-mapping>

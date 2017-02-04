@@ -1,0 +1,76 @@
+package com.mongo;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.ogm.cfg.OgmConfiguration;
+import org.hibernate.service.ServiceRegistry;
+
+public class HibernateUtil {  
+    private static SessionFactory sessionFactory;
+	private static EntityManager entityManager;
+
+    public static SessionFactory getSessionFactory() 
+    {
+        if (sessionFactory == null) 
+        {
+             Configuration cfgogm = new OgmConfiguration().configure();
+              ServiceRegistry serviceRegistry
+                = new StandardServiceRegistryBuilder()
+                    .applySettings(cfgogm.getProperties()).build();
+
+             cfgogm.addAnnotatedClass(Book.class);
+            sessionFactory = cfgogm.buildSessionFactory(serviceRegistry);   
+            sessionFactory.getStatistics().setStatisticsEnabled(Boolean.TRUE);
+        }
+        else
+        {
+            System.out.println("SessionFactory is not Null");
+        }
+        System.out.println(sessionFactory);
+        return sessionFactory;
+    }
+       public static void main(String[] args)
+    {
+
+        new HibernateUtil();
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		
+		//Session session = sessionFactory.openSession();
+		
+		//Transaction trans = session.beginTransaction();
+		
+		EntityManagerFactory emf =
+				Persistence.createEntityManagerFactory( "primary" );
+		entityManager = emf.createEntityManager();
+		
+		Book book = new Book("123", "Holy Bible", "God" );
+		entityManager.persist(book);
+		
+		entityManager.getTransaction().commit();
+
+		entityManager.getTransaction().begin();
+		book = entityManager.find( Book.class, book.getId() );
+		
+		//session.save(book);
+		
+		//trans.commit();
+
+        if(!sessionFactory.isClosed())
+        {
+            System.out.println("-------------------------------------------------------------------------");
+            System.out.println("SessionFactory is Still Open!! Now Attempting to close the SessionFactory");
+            System.out.println("-------------------------------------------------------------------------");
+            sessionFactory.close();
+        }
+
+        System.exit(0);
+
+    }
+ }

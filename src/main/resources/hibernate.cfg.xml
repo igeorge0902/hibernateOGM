@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.current_session_context_class">thread</property>
+        <property name="hibernate.ogm.datastore.provider">mongodb</property>
+        <property name="hibernate.ogm.datastore.database">mongo</property>
+        <property name="hibernate.ogm.mongodb.database">mongo</property>
+        <property name="hibernate.ogm.mongodb.host">localhost</property>
+        <property name="hibernate.ogm.mongodb.port">27017</property>
+        <property name="hibernate.ogm.mongodb.username">mongoose</property>
+        <property name="hibernate.ogm.mongodb.password">mongopsw</property>
+        <property name="hibernate.search.default.indexBase">./Indexes</property>
+        <property name="hibernate.search.default.locking_strategy">single</property>
+<!-- Changing from filebase to Infinispan gave huge performance from 3 sec to 177 ms -->
+        <property name="hibernate.search.default.directory_provider">infinispan</property>
+        <property name="hibernate.search.default.exclusive_index_use">false</property>
+        
+        <mapping class="org.hibernate.ogm.book.model.Book" />
+    </session-factory>
+</hibernate-configuration>

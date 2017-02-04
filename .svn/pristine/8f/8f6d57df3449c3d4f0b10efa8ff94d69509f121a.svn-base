@@ -1,0 +1,74 @@
+package com.mongo;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.hibernate.search.annotations.Indexed;
+
+@Entity
+@Indexed
+@Table(name="test")
+public class Book{  
+
+@Id
+private String id;
+
+@Column(name="book")
+private String book;
+
+@Column(name="author")
+private String author;
+
+Book() {
+}
+
+public Book(String id, String name, String author) {
+	this.setId(id);
+	this.setBook(name);
+	this.setAuthor(author);
+}
+
+/**
+ * @return the id
+ */
+public String getId() {
+	return id;
+}
+
+/**
+ * @param id the id to set
+ */
+public void setId(String id) {
+	this.id = id;
+}
+
+/**
+ * @return the book
+ */
+public String getBook() {
+	return book;
+}
+
+/**
+ * @param book the book to set
+ */
+public void setBook(String book) {
+	this.book = book;
+}
+
+/**
+ * @return the author
+ */
+public String getAuthor() {
+	return author;
+}
+
+/**
+ * @param author the author to set
+ */
+public void setAuthor(String author) {
+	this.author = author;
+}
+}

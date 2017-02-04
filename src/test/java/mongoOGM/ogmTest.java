@@ -1,0 +1,48 @@
+package mongoOGM;
+
+import static org.fest.assertions.Assertions.assertThat;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import org.hibernate.ogm.book.model.Book;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
+public class ogmTest {
+
+	private EntityManager entityManager;
+
+	@Rule
+	public ExpectedException exception = ExpectedException.none();
+
+	@Before
+	public void setupEntityManager() {
+		EntityManagerFactory emf =
+				Persistence.createEntityManagerFactory( "primary" );
+		entityManager = emf.createEntityManager();
+	}
+
+	@Test
+	public void simpleEntityTest() {
+		entityManager.getTransaction().begin();
+
+		Book book = new Book( "Holy Bible", "God" );
+		entityManager.persist( book );
+
+		entityManager.getTransaction().commit();
+
+		entityManager.getTransaction().begin();
+		book = entityManager.find( Book.class, book.getId() );
+
+		assertThat( book ).isNotNull();
+		assertThat( book.getAuthor() ).isEqualTo( "God" );
+
+		System.out.println("What's up?");
+		entityManager.getTransaction().commit();
+	}
+
+}

@@ -1,0 +1,108 @@
+package com.mongo.dao;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import javax.persistence.Query;
+
+import org.hibernate.FlushMode;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.ogm.book.model.Book;
+import org.hibernate.ogm.cfg.OgmConfiguration;
+import org.hibernate.service.ServiceRegistry;
+import org.hibernate.stat.Statistics;
+
+
+public class HibernateUtil {  
+    private static SessionFactory sessionFactory;
+	private static volatile Transaction trans;
+	private static volatile Session session;
+    
+	private static EntityManager entityManager;
+	
+    public static SessionFactory getSessionFactory() 
+    {
+        if (sessionFactory == null) 
+        {
+             Configuration cfgogm = new OgmConfiguration().configure();
+              ServiceRegistry serviceRegistry
+                = new StandardServiceRegistryBuilder()
+                    .applySettings(cfgogm.getProperties()).build();
+
+            // cfgogm.addAnnotatedClass(Book.class);
+            sessionFactory = cfgogm.buildSessionFactory(serviceRegistry);   
+            sessionFactory.getStatistics().setStatisticsEnabled(Boolean.TRUE);
+        }
+        else
+        {
+            System.out.println("SessionFactory is not Null");
+        }
+        System.out.println(sessionFactory);
+        return sessionFactory;
+    }
+       @SuppressWarnings("unchecked")
+       
+	public static void main(String[] args) {
+
+        new HibernateUtil();
+		SessionFactory factory = HibernateUtil.getSessionFactory();		
+		
+		Statistics stats = factory.getStatistics(); 
+		stats.setStatisticsEnabled(true);
+		
+		Book book = new Book("Holy Bible", "God" );
+
+		session = factory.openSession();
+		session.setFlushMode(FlushMode.ALWAYS);
+		
+		session = factory.getCurrentSession();
+		
+		trans = session.getTransaction();
+	
+			trans.begin();
+		
+			session.get(Book.class, book.getId());
+			session.contains(book);
+			//session.save(book);
+
+		String hql = "from Book";
+		
+		org.hibernate.Query query_ = session.createQuery(hql);
+		
+		List<Book> list_ = query_.list();
+		System.out.println(list_.get(0).getBook());		
+		
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory( "hike-PU-JTA" );
+		entityManager = emf.createEntityManager();
+		entityManager.persist(book);
+		
+		book = entityManager.find( Book.class, book.getId() );
+		System.out.println(book.getAuthor());
+	    
+		List<Book> list = new ArrayList<Book>();
+		Query q = entityManager.createQuery("from Book");
+		list = q.getResultList();
+		
+		System.out.println(list.get(0).getBook());
+	
+
+        if(!sessionFactory.isClosed()) {
+            System.out.println("-------------------------------------------------------------------------");
+            System.out.println("SessionFactory is Still Open!! Now Attempting to close the SessionFactory");
+            System.out.println("-------------------------------------------------------------------------");
+            sessionFactory.close();
+        }
+
+        System.exit(0);
+
+    }
+    
+ }
