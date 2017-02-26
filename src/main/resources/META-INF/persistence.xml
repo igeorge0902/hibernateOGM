@@ -4,11 +4,12 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/x
    
     <persistence-unit name="hike-PU" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.ogm.jpa.HibernateOgmPersistence</provider>
-        <class>org.hibernate.ogm.book.model.Book</class>
+        <class>com.mongo.dao.ogm.book.model.Book</class>
         <properties>
             <property name="hibernate.ogm.datastore.provider" value="mongodb" />
             <property name="hibernate.ogm.datastore.database" value="mongo" />
             <property name="hibernate.ogm.mongodb.host" value="127.0.0.1" />
+            <property name="org.hibernate.FlushMode" value="always"/>
         </properties>
     </persistence-unit>
     
@@ -24,6 +25,7 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/x
             <property name="hibernate.ogm.datastore.provider" value="mongodb" />
             <property name="hibernate.ogm.datastore.database" value="mongo" />
             <property name="hibernate.ogm.mongodb.host" value="127.0.0.1" />
+            <property name="org.hibernate.FlushMode" value="always"/>
         </properties>
     </persistence-unit>
 </persistence>

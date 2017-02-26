@@ -1,0 +1,36 @@
+/**
+ * 
+ */
+package com.mongo.utils;
+
+import java.util.List;
+
+import org.json.JSONObject;
+
+import com.mongo.dao.ogm.book.model.Book;
+import com.mongo.service.ObjectHandlerImpl;
+
+/**
+ * @author georgegaspar
+ *
+ */
+public class HibernateTest {
+	
+	public static void main(String[] args) throws Exception {
+		
+	ObjectHandlerImpl oh = new ObjectHandlerImpl();
+
+	List<Book> books = oh.getBook();
+	
+	JSONObject json = new JSONObject(); 
+
+	//json.put("tickets", tickets); 
+	//json.put("searchMovies", movie); 
+	
+
+	json.put("books", books);
+	
+	System.out.println(json.toString());
+	
+	}
+}

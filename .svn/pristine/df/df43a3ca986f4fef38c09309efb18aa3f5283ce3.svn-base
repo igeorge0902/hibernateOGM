@@ -1,10 +1,5 @@
 package com.mongo.dao;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +16,6 @@ import org.hibernate.annotations.FlushModeType;
 import org.hibernate.stat.Statistics;
 
 import com.mongo.dao.ogm.book.model.Book;
-import com.mongo.utils.Memory;
 
 
 public class DAO {
@@ -81,9 +75,8 @@ public class DAO {
 	 * Returns the list of books.
 	 * 
 	 * @return
-	 * @throws IOException 
 	 */
-	public List<Book> getBooks() throws IOException {
+	public List<Book> getBooks() {
 		
 		session = factory.getCurrentSession();
 		
@@ -101,21 +94,6 @@ public class DAO {
 		@SuppressWarnings("unchecked")
 		List<Book> list = query.list();
 		
-		// Send serialized object as encoded string 
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		ObjectOutput out = null;
-	
-		
-		out = new ObjectOutputStream(bos);     
-		out.writeObject(session);
-		
-		@SuppressWarnings("unused")
-		byte[] yourBytes = bos.toByteArray();	
-
-		out.flush();
-		out.close();
-		Memory.memory();
-
 		return list;
 	}
 	
@@ -123,17 +101,14 @@ public class DAO {
 	 * Returns the list of books.
 	 * 
 	 * @return
-	 * @throws IOException 
 	 */
-	public List<Book> getBooks_() throws IOException {
+	public List<Book> getBooks_() {
 		
 		Query q = entityManager.createQuery("from Book");
 		
 		@SuppressWarnings("unchecked")
 		List<Book> books = q.getResultList();
 	
-		Memory.memory();
-
 		return books;		
 	}
 

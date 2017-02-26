@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Built-By: georgegaspar
+Build-Jdk: 1.8.0_91
+Created-By: Maven Integration for Eclipse
+Dependencies: org.hibernate:ogm services, org.hibernate.ogm.mongodb se
+ rvices
+

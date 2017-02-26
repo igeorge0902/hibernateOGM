@@ -16,6 +16,6 @@
         <property name="hibernate.search.default.directory_provider">infinispan</property>
         <property name="hibernate.search.default.exclusive_index_use">false</property>
         
-        <mapping class="org.hibernate.ogm.book.model.Book" />
+        <mapping class="com.mongo.dao.ogm.book.model.Book" />
     </session-factory>
 </hibernate-configuration>
