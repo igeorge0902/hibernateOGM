@@ -9,9 +9,9 @@ Packages:
 - com.mongo.dao
 - com.mongo.service
 
-Basic implementations are covered in the HibernateUtil class, respectively, while the DAO class is used to create instances, and the ObjectHandlerImpl class is used for object manipulation using the persistent context. While the session created with SessionFactory is serializable, making it possible to send through for example tunnels created with Kafka - see example in other project -, that of the EntityManager is not. For more complex object manipulation with session created by SessionFactory I think you are better off if you implement it in the DAO class itself.
+Basic implementations are covered in the HibernateUtil class, respectively, while the DAO class is used to create instances, and the ObjectHandlerImpl class is used for object manipulation using the persistent context. While the session created with SessionFactory is serializable, making it possible to send through for example tunnels created with Kafka - see example in the Kafka project: [Kafka](https://github.com/igeorge0902/Kafka/tree/master/src/main/java/com/queues) -, that of the EntityManager is not. For more complex object manipulation with session created by SessionFactory I think you are better off if you implement it in the DAO class itself.
 
-The com.mongo.dao.ogm package holds the standard bean-like implementations.
+The com.mongo.dao.ogm package holds the standard bean-like implementations, which I have not touched, just put in the project. I worked on the above mentioned solution, only.
 
 Entity:
 - com.mongo.dao.ogm.book.model
